@@ -24,7 +24,7 @@ def divide(num1, num2):
 # Function to add power function
 #You cant use the inbuilt python function x ** y . Write your own function
 def power(num1, num2): #num1 ^ num2
-	if isinstance(num2,int):
+	if num2%1 == 0:
 		if num2 >= 1:
 			num2 = num2 - 1
 			return num1*power(num1,num2)
@@ -33,7 +33,7 @@ def power(num1, num2): #num1 ^ num2
 		elif num2 < 0:
 			return 1/power(num1,num2*(-1))
 	else:
-		return "power shoud be an integer"
+		return "power shouldn't be a fraction"
 	
 # Python 3 program to print GP.  geometric Progression
 #You cant use the inbuilt python function. Write your own function
@@ -55,4 +55,8 @@ def printAP(a, d, n):
 #You cant use the inbuilt python function. Write your own function
 def printHP(a, d, n): 
 	hp=[]
+	for i in range(n):
+		if (a+i*d) == 0:
+			return 0
+		hp.append(1/(a+i*d))
 	return hp
