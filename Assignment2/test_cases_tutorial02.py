@@ -56,8 +56,6 @@ test_case_12 = A2.rmse(p, r)  # Invalid since list  r contains non-numeric data-
 student_answers.append(test_case_12)
 
 print(actual_answers)
-for i in range(len(student_answers)):
-    student_answers[i] = round(student_answers[i], 3)
 print(student_answers)
 
 total_test_cases = len(actual_answers)
