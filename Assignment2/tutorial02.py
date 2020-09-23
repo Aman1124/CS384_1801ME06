@@ -113,7 +113,12 @@ def skewness(first_list):
     
 def sorting(first_list):
     # Sorting Logic
-    return sorted_list
+    n = len(first_list)
+    for i in range(n-1):
+        for j in range(0,n-i-1):
+            if first_list[j] > first_list[j+1]:
+                first_list[j], first_list[j+1] = first_list[j+1], first_list[j]
+    return first_list
 
 
 # Function to compute Kurtosis. You cant use Python functions
