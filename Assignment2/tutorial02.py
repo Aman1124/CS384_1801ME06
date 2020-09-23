@@ -5,11 +5,7 @@ import math
 # Function to compute mean
 def mean(first_list):
     # mean Logic 
-    sum = 0
-    for x in first_list:
-        if isinstance(x, str):
-            return 0
-        sum += x
+    sum = summation(first_list)
     mean_value = sum/len(first_list)
     return mean_value
 
