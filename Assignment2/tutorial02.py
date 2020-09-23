@@ -1,5 +1,7 @@
 # All decimal 3 places
 
+import math
+
 # Function to compute mean
 def mean(first_list):
     # mean Logic 
@@ -32,7 +34,7 @@ def standard_deviation(first_list):
     a= 0
     for x in first_list:
         a = a + ((x-m)*(x-m))
-    standard_deviation_value = sqrt(a/len(first_list))
+    standard_deviation_value = math.sqrt(a/len(first_list))
     return standard_deviation_value
 
 
@@ -52,7 +54,7 @@ def rmse(first_list, second_list):
     else:
         for i in range(len(first_list)):
             rmse_value = rmse_value + (first_list[i]-second_list[i])*(first_list[i]-second_list[i])
-        rmse_value = sqrt(rmse_value)
+        rmse_value = math.sqrt(rmse_value)
     return rmse_value
 
 
@@ -86,6 +88,15 @@ def nse(first_list, second_list):
 # Function to compute Pearson correlation coefficient. You cant use Python functions
 def pcc(first_list, second_list):
     # nse Logic
+    num = 0
+    if len(first_list) != len(second_list):
+        return 0
+    else:
+        mean_x = mean(first_list)
+        mean_y = mean(second_list)
+        for i in range(len(first_list)):
+            num = num + (first_list[i]-mean_x)*(second_list[i]-mean_y)
+        pcc_value = num/(standard_deviation(first_list)*standard_deviation(second_list)*len(first_list))
     return pcc_value
 
 
