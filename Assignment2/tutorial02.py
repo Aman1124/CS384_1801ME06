@@ -79,6 +79,7 @@ def mae(first_list, second_list):
 # Function to compute NSE. You cant use Python functions
 def nse(first_list, second_list):
     # nse Logic
+    nse_value = 1 - mse(first_list, second_list)/variance(first_list)
     return nse_value
 
 
