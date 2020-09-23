@@ -6,8 +6,10 @@ import math
 def mean(first_list):
     # mean Logic 
     sum = 0
-    for a in first_list:
-        sum = sum + a
+    for x in first_list:
+        if isinstance(x, str):
+            return 0
+        sum += x
     mean_value = sum/len(first_list)
     return mean_value
 
@@ -33,6 +35,8 @@ def standard_deviation(first_list):
     m = mean(first_list)
     a= 0
     for x in first_list:
+        if isinstance(x, str):
+            return 0
         a = a + ((x-m)*(x-m))
     standard_deviation_value = math.sqrt(a/len(first_list))
     return standard_deviation_value
@@ -44,7 +48,6 @@ def variance(first_list):
     variance_value = standard_deviation(first_list)*standard_deviation(first_list)
     return variance_value
 
-
 # Function to compute RMSE. You cant use Python functions
 def rmse(first_list, second_list):
     # RMSE Logic
@@ -53,8 +56,10 @@ def rmse(first_list, second_list):
         return 0
     else:
         for i in range(len(first_list)):
+            if isinstance(first_list[i],str) or isinstance(second_list[i],str):
+                return 0
             rmse_value = rmse_value + (first_list[i]-second_list[i])*(first_list[i]-second_list[i])
-        rmse_value = math.sqrt(rmse_value)
+        rmse_value = math.sqrt(rmse_value/len(first_list))
     return rmse_value
 
 
@@ -73,6 +78,8 @@ def mae(first_list, second_list):
         return 0
     else:
         for i in range(len(first_list)):
+            if isinstance(first_list[i], str) or isinstance(second_list[i],str):
+                return 0
             mae_value = mae_value + abs(first_list[i]-second_list[i])
         mae_value = mae_value/len(first_list)
     return mae_value
@@ -95,6 +102,8 @@ def pcc(first_list, second_list):
         mean_x = mean(first_list)
         mean_y = mean(second_list)
         for i in range(len(first_list)):
+            if isinstance(first_list[i], str) or isinstance(second_list[i], str):
+                return 0
             num = num + (first_list[i]-mean_x)*(second_list[i]-mean_y)
         pcc_value = num/(standard_deviation(first_list)*standard_deviation(second_list)*len(first_list))
     return pcc_value
@@ -106,6 +115,8 @@ def skewness(first_list):
     m = mean(first_list)
     num = 0
     for x in first_list:
+        if isinstance(x, str):
+            return 0
         num = num + (x-m)*(x-m)*(x-m)
     sd = standard_deviation(first_list)
     skewness_value = num/(len(first_list)*sd*sd*sd)
@@ -127,6 +138,8 @@ def kurtosis(first_list):
     m = mean(first_list)
     num = 0
     for x in first_list:
+        if isinstance(x, str):
+            return 0
         num = num + (x-m)*(x-m)*(x-m)*(x-m)
     sd = standard_deviation(first_list)
     kurtosis_value = num/(len(first_list)*sd*sd*sd*sd)
@@ -138,5 +151,7 @@ def summation(first_list):
     # sum Logic
     summation_value = 0
     for x in first_list:
+        if isinstance(x, str):
+            return 0
         summation_value =  summation_value + x
     return summation_value

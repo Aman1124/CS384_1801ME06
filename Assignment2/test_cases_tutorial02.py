@@ -56,13 +56,15 @@ test_case_12 = A2.rmse(p, r)  # Invalid since list  r contains non-numeric data-
 student_answers.append(test_case_12)
 
 print(actual_answers)
+for i in range(len(student_answers)):
+    student_answers[i] = round(student_answers[i], 3)
 print(student_answers)
 
 total_test_cases = len(actual_answers)
 count_of_correct_test_cases = 0
 
 for x, y in zip(actual_answers, student_answers):
-    if x == y:
+    if x == round(y, 2):
         count_of_correct_test_cases += 1
 
 print(f"Test Cases Passed = '{count_of_correct_test_cases}'  / '{total_test_cases}'")
