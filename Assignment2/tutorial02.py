@@ -59,6 +59,13 @@ def rmse(first_list, second_list):
 # Function to compute mse. You cant use Python functions
 def mse(first_list, second_list):
     # mse Logic
+    mse_value = 0
+    if len(first_list) != len(second_list):
+        return 0
+    else:
+        for i in range(len(first_list)):
+            mse_value = mse_value + abs(first_list[i]-second_list[i])
+        mse_value = mse_value/len(first_list)
     return mse_value
 
 
