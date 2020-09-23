@@ -28,6 +28,11 @@ def median(first_list):
 # Function to compute Standard deviation. You cant use Python functions
 def standard_deviation(first_list):
     # Standard deviation Logic
+    m = mean(first_list)
+    a= 0
+    for x in first_list:
+        a = a + ((x-m)*(x-m))
+    standard_deviation_value = sqrt(a/len(first_list))
     return standard_deviation_value
 
 
