@@ -1,19 +1,20 @@
 import csv
 import os
+import shutil
 
 os.system("cls")
 
 currPath = os.getcwd()
 currPath = os.path.join(currPath, r"analytics")
-try:
-    os.mkdir(currPath)
-except:
-    pass
 
 
 def del_create_analytics_folder():
-    # del the analytics folder including subfolder
-    # mkdir the analytics folder (only mkdir)
+    try:
+        os.mkdir(currPath)
+    except:
+        shutil.rmtree(currPath)
+        os.mkdir(currPath)
+
     pass
 
 
@@ -287,6 +288,7 @@ def new_file_sort():
     pass
 
 
+del_create_analytics_folder()
 course()
 country()
 gender()
