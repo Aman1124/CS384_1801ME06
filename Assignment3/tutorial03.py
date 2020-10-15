@@ -133,7 +133,6 @@ def gender():
 
     with open("studentinfo_cs384.csv", "r") as file:
         reader = csv.reader(file)
-        countries = []
         a = True
         for row in reader:
             if a:
@@ -160,7 +159,31 @@ def dob():
 
 
 def state():
-    # Read csv and process
+    statePath = os.path.join(currPath, r"state")
+    try:
+        os.mkdir(statePath)
+    except:
+        pass
+
+    with open("studentinfo_cs384.csv", "r") as file:
+        reader = csv.reader(file)
+        a = True
+        for row in reader:
+            if a:
+                a = False
+                continue
+            openMode = ""
+            if os.path.exists(os.path.join(statePath, row[7].lower())):
+                openMode = "w"
+            else:
+                openMode = "a"
+            with open(
+                os.path.join(statePath, row[7].lower() + ".csv"), openMode, newline=""
+            ) as file:
+                writer = csv.writer(file)
+                writer.writerow(row)
+                file.close()
+
     pass
 
 
@@ -178,3 +201,4 @@ def new_file_sort():
 course()
 country()
 gender()
+state()
