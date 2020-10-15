@@ -306,7 +306,70 @@ def blood_group():
 
 # Create the new file here and also sort it in this function only.
 def new_file_sort():
-    # Read csv and process
+
+    data = []
+    newheader = [
+        "id",
+        "first_name",
+        "last_name",
+        "country",
+        "email",
+        "gender",
+        "dob",
+        "blood_group",
+        "state",
+    ]
+
+    with open("studentinfo_cs384.csv", "r") as file:
+        reader = csv.reader(file)
+        a = True
+
+        for row in reader:
+            if a:
+                a = False
+                continue
+
+            first_name = (row[1].split(" "))[0]
+            last_name = (row[1].split(" "))[1]
+
+            data.append(row)
+
+            row.pop(1)
+
+            row.insert(1, first_name)
+            row.insert(2, last_name)
+
+            openMode = ""
+            if os.path.exists(
+                os.path.join(currPath, "studentinfo_cs384_names_split.csv")
+            ):
+                openMode = "a"
+            else:
+                openMode = "w"
+            with open(
+                os.path.join(currPath, "studentinfo_cs384_names_split.csv"),
+                openMode,
+                newline="",
+            ) as file:
+                writer = csv.writer(file)
+                if openMode == "w":
+                    writer.writerow(newheader)
+                writer.writerow(row)
+
+    for i in range(0, len(data)):
+        for j in range(0, len(data) - i - 1):
+            if data[j][1] > data[j + 1][1]:
+                data[j], data[j + 1] = data[j + 1], data[j]
+
+    with open(
+        os.path.join(currPath, "studentinfo_cs384_names_split_sorted_first_name.csv"),
+        "w",
+        newline="",
+    ) as file:
+        writer = csv.writer(file)
+        writer.writerow(newheader)
+        writer.writerows(data)
+
     pass
 
 
@@ -318,3 +381,4 @@ state()
 blood_group()
 email_domain_extract()
 dob()
+new_file_sort()
