@@ -11,6 +11,12 @@ except:
     pass
 
 
+def del_create_analytics_folder():
+    # del the analytics folder including subfolder
+    # mkdir the analytics folder (only mkdir)
+    pass
+
+
 def course():
     coursePath = os.path.join(currPath, r"course")
     try:
@@ -63,6 +69,7 @@ def course():
                     pass
                 finally:
                     fileName = x[0][0:2] + "_" + branch + "_" + courseName + ".csv"
+                    openMode = ""
                     if os.path.exists(
                         os.path.join(coursePath, branch, courseName, fileName)
                     ):
@@ -82,7 +89,32 @@ def course():
 
 
 def country():
-    # Read csv and process
+    countryPath = os.path.join(currPath, r"country")
+    try:
+        os.mkdir(countryPath)
+    except:
+        pass
+
+    with open("studentinfo_cs384.csv", "r") as file:
+        reader = csv.reader(file)
+        countries = []
+        a = True
+        for row in reader:
+            if a:
+                a = False
+                continue
+            openMode = ""
+            if os.path.exists(os.path.join(countryPath, row[2].lower())):
+                openMode = "w"
+            else:
+                openMode = "a"
+            with open(
+                os.path.join(countryPath, row[2].lower() + ".csv"), openMode, newline=""
+            ) as file:
+                writer = csv.writer(file)
+                writer.writerow(row)
+                file.close()
+
     pass
 
 
@@ -118,3 +150,4 @@ def new_file_sort():
 
 
 course()
+country()
