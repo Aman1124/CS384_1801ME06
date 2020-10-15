@@ -188,7 +188,31 @@ def state():
 
 
 def blood_group():
-    # Read csv and process
+    bloodPath = os.path.join(currPath, r"blood_group")
+    try:
+        os.mkdir(bloodPath)
+    except:
+        pass
+
+    with open("studentinfo_cs384.csv", "r") as file:
+        reader = csv.reader(file)
+        a = True
+        for row in reader:
+            if a:
+                a = False
+                continue
+            openMode = ""
+            if os.path.exists(os.path.join(bloodPath, row[6].lower())):
+                openMode = "w"
+            else:
+                openMode = "a"
+            with open(
+                os.path.join(bloodPath, row[6].lower() + ".csv"), openMode, newline=""
+            ) as file:
+                writer = csv.writer(file)
+                writer.writerow(row)
+                file.close()
+
     pass
 
 
@@ -202,3 +226,4 @@ course()
 country()
 gender()
 state()
+blood_group()
