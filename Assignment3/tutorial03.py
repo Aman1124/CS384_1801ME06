@@ -106,6 +106,7 @@ def country():
             openMode = ""
             if os.path.exists(os.path.join(countryPath, row[2].lower())):
                 openMode = "w"
+                countries.append(row[2].lower())
             else:
                 openMode = "a"
             with open(
@@ -124,7 +125,32 @@ def email_domain_extract():
 
 
 def gender():
-    # Read csv and process
+    genderPath = os.path.join(currPath, r"gender")
+    try:
+        os.mkdir(genderPath)
+    except:
+        pass
+
+    with open("studentinfo_cs384.csv", "r") as file:
+        reader = csv.reader(file)
+        countries = []
+        a = True
+        for row in reader:
+            if a:
+                a = False
+                continue
+            openMode = ""
+            if os.path.exists(os.path.join(genderPath, row[4].lower())):
+                openMode = "w"
+            else:
+                openMode = "a"
+            with open(
+                os.path.join(genderPath, row[4].lower() + ".csv"), openMode, newline=""
+            ) as file:
+                writer = csv.writer(file)
+                writer.writerow(row)
+                file.close()
+
     pass
 
 
@@ -151,3 +177,4 @@ def new_file_sort():
 
 course()
 country()
+gender()
