@@ -6,6 +6,16 @@ os.system("cls")
 
 currPath = os.getcwd()
 currPath = os.path.join(currPath, r"analytics")
+header = [
+    "id",
+    "full_name",
+    "country",
+    "email",
+    "gender",
+    "dob",
+    "blood_group",
+    "state",
+]
 
 
 def del_create_analytics_folder():
@@ -116,6 +126,8 @@ def country():
                 os.path.join(countryPath, row[2].lower() + ".csv"), openMode, newline=""
             ) as file:
                 writer = csv.writer(file)
+                if openMode == "w":
+                    writer.writerow(header)
                 writer.writerow(row)
                 file.close()
 
@@ -146,6 +158,8 @@ def email_domain_extract():
                 os.path.join(mailPath, domain + ".csv"), openMode, newline=""
             ) as file:
                 writer = csv.writer(file)
+                if openMode == "w":
+                    writer.writerow(header)
                 writer.writerow(row)
                 file.close()
 
@@ -175,6 +189,8 @@ def gender():
                 os.path.join(genderPath, row[4].lower() + ".csv"), openMode, newline=""
             ) as file:
                 writer = csv.writer(file)
+                if openMode == "w":
+                    writer.writerow(header)
                 writer.writerow(row)
                 file.close()
 
@@ -218,6 +234,8 @@ def dob():
                 os.path.join(dobPath, dobRange + ".csv"), openMode, newline=""
             ) as file:
                 writer = csv.writer(file)
+                if openMode == "w":
+                    writer.writerow(header)
                 writer.writerow(row)
                 file.close()
 
@@ -247,6 +265,8 @@ def state():
                 os.path.join(statePath, row[7].lower() + ".csv"), openMode, newline=""
             ) as file:
                 writer = csv.writer(file)
+                if openMode == "w":
+                    writer.writerow(header)
                 writer.writerow(row)
                 file.close()
 
@@ -276,6 +296,8 @@ def blood_group():
                 os.path.join(bloodPath, row[6].lower() + ".csv"), openMode, newline=""
             ) as file:
                 writer = csv.writer(file)
+                if openMode == "w":
+                    writer.writerow(header)
                 writer.writerow(row)
                 file.close()
 
