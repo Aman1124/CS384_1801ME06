@@ -68,7 +68,9 @@ def course():
                 except:
                     pass
                 finally:
-                    fileName = x[0][0:2] + "_" + branch + "_" + courseName + ".csv"
+                    fileName = (
+                        x[0][0:2] + "_" + branch.lower() + "_" + courseName + ".csv"
+                    )
                     openMode = ""
                     if os.path.exists(
                         os.path.join(coursePath, branch, courseName, fileName)
@@ -120,7 +122,32 @@ def country():
 
 
 def email_domain_extract():
-    # Read csv and process
+    mailPath = os.path.join(currPath, r"email_domain")
+    try:
+        os.mkdir(mailPath)
+    except:
+        pass
+
+    with open("studentinfo_cs384.csv", "r") as file:
+        reader = csv.reader(file)
+        a = True
+        for row in reader:
+            if a:
+                a = False
+                continue
+            openMode = ""
+            domain = ((row[3].split("@"))[1].split("."))[0]
+            if os.path.exists(os.path.join(mailPath, domain)):
+                openMode = "w"
+            else:
+                openMode = "a"
+            with open(
+                os.path.join(mailPath, domain + ".csv"), openMode, newline=""
+            ) as file:
+                writer = csv.writer(file)
+                writer.writerow(row)
+                file.close()
+
     pass
 
 
@@ -227,3 +254,4 @@ country()
 gender()
 state()
 blood_group()
+email_domain_extract()
