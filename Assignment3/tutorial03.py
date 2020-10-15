@@ -106,11 +106,11 @@ def country():
                 a = False
                 continue
             openMode = ""
-            if os.path.exists(os.path.join(countryPath, row[2].lower())):
-                openMode = "w"
+            if os.path.exists(os.path.join(countryPath, row[2].lower() + ".csv")):
+                openMode = "a"
                 countries.append(row[2].lower())
             else:
-                openMode = "a"
+                openMode = "w"
             with open(
                 os.path.join(countryPath, row[2].lower() + ".csv"), openMode, newline=""
             ) as file:
@@ -137,10 +137,10 @@ def email_domain_extract():
                 continue
             openMode = ""
             domain = ((row[3].split("@"))[1].split("."))[0]
-            if os.path.exists(os.path.join(mailPath, domain)):
-                openMode = "w"
-            else:
+            if os.path.exists(os.path.join(mailPath, domain + ".csv")):
                 openMode = "a"
+            else:
+                openMode = "w"
             with open(
                 os.path.join(mailPath, domain + ".csv"), openMode, newline=""
             ) as file:
@@ -166,10 +166,10 @@ def gender():
                 a = False
                 continue
             openMode = ""
-            if os.path.exists(os.path.join(genderPath, row[4].lower())):
-                openMode = "w"
-            else:
+            if os.path.exists(os.path.join(genderPath, row[4].lower() + ".csv")):
                 openMode = "a"
+            else:
+                openMode = "w"
             with open(
                 os.path.join(genderPath, row[4].lower() + ".csv"), openMode, newline=""
             ) as file:
@@ -181,7 +181,45 @@ def gender():
 
 
 def dob():
-    # Read csv and process
+    dobPath = os.path.join(currPath, r"dob")
+    try:
+        os.mkdir(dobPath)
+    except:
+        pass
+
+    with open("studentinfo_cs384.csv", "r") as file:
+        reader = csv.reader(file)
+        a = True
+        for row in reader:
+            if a:
+                a = False
+                continue
+            openMode = ""
+            dobYear = int((row[5].split("-"))[2])
+            dobRange = ""
+
+            if dobYear >= 1995 and dobYear <= 1999:
+                dobRange = "bday_1995_1999"
+            elif dobYear >= 2000 and dobYear <= 2004:
+                dobRange = "bday_2000_2004"
+            elif dobYear >= 2005 and dobYear <= 2009:
+                dobRange = "bday_2005_2009"
+            elif dobYear >= 2010 and dobYear <= 2014:
+                dobRange = "bday_2010_2014"
+            elif dobYear >= 2015 and dobYear <= 2020:
+                dobRange = "bday_2015_2020"
+
+            if os.path.exists(os.path.join(dobPath, dobRange + ".csv")):
+                openMode = "a"
+            else:
+                openMode = "w"
+            with open(
+                os.path.join(dobPath, dobRange + ".csv"), openMode, newline=""
+            ) as file:
+                writer = csv.writer(file)
+                writer.writerow(row)
+                file.close()
+
     pass
 
 
@@ -200,10 +238,10 @@ def state():
                 a = False
                 continue
             openMode = ""
-            if os.path.exists(os.path.join(statePath, row[7].lower())):
-                openMode = "w"
-            else:
+            if os.path.exists(os.path.join(statePath, row[7].lower() + ".csv")):
                 openMode = "a"
+            else:
+                openMode = "w"
             with open(
                 os.path.join(statePath, row[7].lower() + ".csv"), openMode, newline=""
             ) as file:
@@ -229,10 +267,10 @@ def blood_group():
                 a = False
                 continue
             openMode = ""
-            if os.path.exists(os.path.join(bloodPath, row[6].lower())):
-                openMode = "w"
-            else:
+            if os.path.exists(os.path.join(bloodPath, row[6].lower() + ".csv")):
                 openMode = "a"
+            else:
+                openMode = "w"
             with open(
                 os.path.join(bloodPath, row[6].lower() + ".csv"), openMode, newline=""
             ) as file:
@@ -255,3 +293,4 @@ gender()
 state()
 blood_group()
 email_domain_extract()
+dob()
