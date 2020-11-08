@@ -46,6 +46,7 @@ def create_all_csv():
     	file = open(currPath + "/" + "misc.csv", "w")
     	writer = csv.writer(file)
     	header = ['sl','roll','sem','year','sub_code','total_credits','credit_obtained','timestamp','sub_type']
+    	writer.writerow(header)
 
     return roll_no
 
