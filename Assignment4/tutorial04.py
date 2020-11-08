@@ -82,6 +82,69 @@ def write_data_individual(roll_no_data):
 				writer.writerow(data[i])
 			i += 1
 
+def write_data_overall(roll_no_data):
+	with open("acad_res_stud_grades.csv", "r") as file:
+		reader = csv.reader(file)
+		data = []
+		c = True
+		for row in reader:
+			if c:
+				c = False
+				continue
+			data.append(row)
+		sem_credits = [0,0,0,0,0,0,0,0,0,0]
+		sem_credits_cleared = [0,0,0,0,0,0,0,0,0,0]
+		spi = [0,0,0,0,0,0,0,0,0,0]
+		total_credits = [0,0,0,0,0,0,0,0,0,0]
+		total_credits_cleared = [0,0,0,0,0,0,0,0,0,0]
+		cpi = [0,0,0,0,0,0,0,0,0,0]
+		i = p = 0
+		while i<len(data):
+			if data[i][6] in validGrades:
+				if roll_no_data[p] == data[i][1]:
+					grade = gradesCredit[validGrades.index(data[i][6])]
+					credits = int(data[i][5], 10)
+					sem_credits[int(data[i][2], 10) - 1] += credits
+					spi[int(data[i][2], 10) - 1] += (grade*credits)
+					if int(data[i][2], 10) > 1:
+						total_credits[int(data[i][2], 10) - 1] = total_credits[int(data[i][2], 10) - 2] + sem_credits[int(data[i][2], 10) - 1]
+						cpi[int(data[i][2], 10) - 1] = cpi[int(data[i][2], 10) - 2] + spi[int(data[i][2], 10) - 1]
+					else:
+						total_credits[0] = sem_credits[0]
+						cpi[0] = spi[0]
+					if grade > 0:
+						sem_credits_cleared[int(data[i][2], 10) - 1] += credits
+						if int(data[i][2], 10) > 1:
+							total_credits_cleared[int(data[i][2], 10) - 1] = total_credits_cleared[int(data[i][2], 10) - 2] + sem_credits_cleared[int(data[i][2], 10) - 1]
+						else:
+							total_credits_cleared[0] = sem_credits_cleared[0]
+				else:
+					file1 = open(currPath + "/" + roll_no_data[p] + "_overall.csv", "a")
+					writer = csv.writer(file1)
+					for j in range(10):
+						if sem_credits[j] > 0:
+							spi[j] = round(spi[j]/sem_credits[j], 2)
+							cpi[j] = round(cpi[j]/total_credits[j], 2)
+							writer.writerow([j+1, sem_credits[j], sem_credits_cleared[j], spi[j], total_credits[j], 
+								total_credits_cleared[j], cpi[j]])
+					sem_credits = [0,0,0,0,0,0,0,0,0,0]
+					sem_credits_cleared = [0,0,0,0,0,0,0,0,0,0]
+					spi = [0,0,0,0,0,0,0,0,0,0]
+					total_credits = [0,0,0,0,0,0,0,0,0,0]
+					total_credits_cleared = [0,0,0,0,0,0,0,0,0,0]
+					cpi = [0,0,0,0,0,0,0,0,0,0]
+					i -= 1
+					p += 1
+			i += 1
+		file1 = open(currPath + "/" + roll_no_data[p] + "_overall.csv", "a")
+		writer = csv.writer(file1)
+		for j in range(10):
+			if sem_credits[j] > 0:
+				spi[j] = round(spi[j]/sem_credits[j], 2)
+				cpi[j] = round(cpi[j]/total_credits[j], 2)
+				writer.writerow([j+1, sem_credits[j], sem_credits_cleared[j], spi[j], total_credits[j], 
+								total_credits_cleared[j], cpi[j]])
+
 
 
 del_create_grades_folder()
@@ -90,3 +153,5 @@ roll_no = create_all_csv()
 print("create_all_csv() completed")
 write_data_individual(roll_no)
 print("write_data_individual() completed")
+write_data_overall(roll_no)
+print("write_data_overall() completed")
