@@ -1,1 +1,2 @@
-# CS384_1801ME06
+# CS384_2020_skeleton
+CS384 2020 Skeleton
