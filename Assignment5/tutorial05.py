@@ -7,7 +7,17 @@ global seasonPadding, episodePadding
 
 
 def rename_FIR(folder_name):
-    pass
+    os.chdir(os.path.join(dir_path, "FIR"))
+    files = os.listdir(os.getcwd())
+    for file in files:
+    	numbers = re.findall("\d+", file)
+    	epName = re.split("\.", file)
+    	# print(numbers)
+    	epNumber = numbers[0].zfill(episodePadding)
+    	# sNumber = numbers[0].zfill(seasonPadding)
+    	newName = "FIR - Episode " + epNumber + "." + epName[-1]
+    	os.rename(file, newName)
+    	# print(newName) 
     
 
 def rename_Game_of_Thrones(folder_name):
