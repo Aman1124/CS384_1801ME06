@@ -40,7 +40,17 @@ def rename_Suits(folder_name):
     
 
 def rename_How_I_Met_Your_Mother(folder_name):
-    pass 
+    os.chdir(os.path.join(dir_path, "How I Met Your Mother"))
+    files = os.listdir(os.getcwd())
+    for file in files:
+    	numbers = re.findall("\d+", file)
+    	epName = re.split("\-|\.", file)
+    	# print(epName)
+    	epNumber = numbers[1].zfill(episodePadding)
+    	sNumber = numbers[0].zfill(seasonPadding)
+    	newName = epName[0] + "- Season " + sNumber + " Episode " + epNumber + " -" + epName[2] + "." + epName[-1]
+    	os.rename(file, newName)
+    	# print(newName) 
 
 seriesName = input("Main Title of the Web Series: ")
 seasonPadding = int(input('Season Number Padding: '))
