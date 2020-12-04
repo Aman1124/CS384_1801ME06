@@ -1,6 +1,11 @@
 ques_no,question,option1,option2,option3,option4,correct_option,marks_correct_ans,marks_wrong_ans,compulsory,marked choice,Total,Legend
-,,,,,,,,,,,0,Correct Choices
-,,,,,,,,,,,0,Wrong Choices
-,,,,,,,,,,,0,Unattempted
-,,,,,,,,,,,0,Marks Obtained
-,,,,,,,,,,,47,Total Quiz Marks
+,,,,,,,,,,,2.0,Correct Choices
+,,,,,,,,,,,5.0,Wrong Choices
+,,,,,,,,,,,0.0,Unattempted
+4,Capital of England,Paris,Patna,Amhara,London,4,3,0,1,,2.0,Marks Obtained
+5,4x10/5-4=,4,7,9,8,1,5,-2,1,,47.0,Total Quiz Marks
+6,Currency of Japan,Rupee,Dhaka,Dollar,Yen,4,5,-1,1,,,
+7,8x9x5/10-20,18,17,16,15,3,5,-2,1,,,
+8,S.I unit of velocity is _,m/s,inch/s,mm/s,cm/s,1,4,-2,1,,,
+9,Currency of India,Dhaka,Dollar,Indian Dollar,Indian Rupee,4,3,-3,1,,,
+10,Synonym of ingenious,gifted,creative,clever,All of above,4,5,-1,1,,,

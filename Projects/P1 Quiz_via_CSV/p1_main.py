@@ -256,13 +256,21 @@ def start_quiz(quiz, user):
     os.chdir(questions_folder)
     df_quiz = pd.read_csv(csv_to_open)
     total_marks = sum(list(df_quiz.marks_correct_ans))
-    print(df_quiz.marks_correct_ans)
+    # print(df_quiz.marks_correct_ans)
     count, tmp = 0, ''
     global skipped_questions
-    marks_quiz, skipped_questions, responses_for_csv = [], [], []
+    marks_quiz, skipped_questions = [], []
+    responses_for_csv = [['','','','','','','','','','','']]*df_quiz.shape[0]
+    # print(responses_for_csv, len(responses_for_csv), len(responses_for_csv[0]))
+    # exit()
     no_of_skipped_questions, correct, wrong= 0, 0, 0
     show_skipped = False
     # print(df_quiz.loc[0])
+    # exit()
+    for i in range(df_quiz.shape[0]):
+        responses_for_csv[i] = list(df_quiz.loc[i])
+        # print(responses_for_csv[i], len(responses_for_csv[i]))
+
     # exit()
 
     while count < df_quiz.shape[0]:
@@ -328,9 +336,8 @@ def start_quiz(quiz, user):
         marks_quiz.append(marks_gained)
         # print("count: ", count)
         if (not count<1) and tmp in ['1','2','3','4','s']:
-	        extra = [tmp]
-	        responses_for_csv.append(list(df_quiz.loc[count-1][0:-1]))
-	        responses_for_csv[count-1] += extra
+	        # responses_for_csv[count-1] = list(df_quiz.loc[count-1][0:-1])
+	        responses_for_csv[count-1][-1] = tmp
 
     # ----------------------------------Responses csv files-------------------------------------
     header_responses = df_quiz.columns.values
