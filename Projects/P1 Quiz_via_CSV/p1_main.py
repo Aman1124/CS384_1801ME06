@@ -372,7 +372,7 @@ def start_quiz(quiz, user):
 
 
 user = register_login()
-print("User details: ", user)
+# print("User details: ", user)
 # timer(1)
 # exit()
 
@@ -394,16 +394,3 @@ if not user == []:
     	detect_keypress = False
     else:
     	detect_keypress = False
-# print("Registered Users:")
-# print(reg_names)
-'''
-if __name__ == "__main__":
-    t1 = threading.Thread(target=start_quiz, args=(quiz, user,))
-    t2 = threading.Thread(target=detect_hotkeys, args=())
-    t3 = threading.Thread(target=timer, args=())
-
-    t1.start()
-    t2.start()
-
-    t2.join()
-    stat = False'''
