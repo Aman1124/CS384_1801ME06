@@ -77,7 +77,7 @@ def exit(event):
 			if fileName == '':
 				save_as()
 			else:
-				save()
+				save(0)
 	root.destroy()
 
 #------------------------Functions of edit menu------------------------------------
