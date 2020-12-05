@@ -76,8 +76,8 @@ def timer(quiz):
         "Arial", 18, ""), textvariable=second)
     secondEntry.place(x=150, y=20)
 
-    # t = (int(tt[0]))*60
-    t = 15
+    t = (int(tt[0]))*60
+
     global end_timer
     while t > -1:
         mins, secs = divmod(t, 60)
@@ -331,7 +331,8 @@ def start_quiz(quiz, user):
             count -= 1
             show_skipped = True
         elif tmp == 'goto_question':
-            count = int(input("Goto the question no. (Please clear the buffered input): "))
+            count = int(
+                input("Goto the question no. (Please clear the buffered input): "))
             count -= 1
             continue
         elif tmp == 'final_submit' or end_timer:
@@ -381,7 +382,8 @@ def start_quiz(quiz, user):
     print_user_data(user, show_skipped)
     # print()
     print(f"Total Quiz Questions: {df_quiz.shape[0]}")
-    print(f"Total Quiz Questions Attempted: {df_quiz.shape[0] - no_of_skipped_questions}")
+    print(
+        f"Total Quiz Questions Attempted: {df_quiz.shape[0] - no_of_skipped_questions}")
     print(f"Total Correct Questions: {correct}")
     print(f"Total Wrong Questions: {wrong}")
     print(f"Total Marks: {total_marks_obtained}/{total_marks}\n")
