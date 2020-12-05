@@ -20,6 +20,7 @@ end_timer, detect_keypress = False, True
 global uanttempted_ques
 uanttempted_ques = []
 
+
 def create_load_reg_data():
     users_data = []
     filename = sqlite3.connect("project1 quiz cs384.db")
@@ -50,11 +51,11 @@ def timer(quiz):
 
     time_detail = 0
     with open(os.path.join(path, "quiz_wise_questions", f"q{quiz}.csv"), "r") as file:
-    	reader = csv.reader(file)
-    	for row in reader:
-    		time_detail = row[10]
-    		file.close()
-    		break
+        reader = csv.reader(file)
+        for row in reader:
+            time_detail = row[10]
+            file.close()
+            break
     tt = re.findall('\d+', time_detail)
 
     root = Tk()
@@ -74,14 +75,16 @@ def timer(quiz):
     secondEntry = Entry(root, width=3, font=(
         "Arial", 18, ""), textvariable=second)
     secondEntry.place(x=150, y=20)
-    
-    t = (int(tt[0]))*60
-    
+
+    # t = (int(tt[0]))*60
+    t = 15
+    global end_timer
     while t > -1:
         mins, secs = divmod(t, 60)
-        if end_timer:
-        	root.destroy()
-        	break
+        if end_timer or t == 0:
+            end_timer = True
+            root.destroy()
+            break
         minute.set("{0:2d}".format(mins))
         second.set("{0:2d}".format(secs))
         root.update()
@@ -105,9 +108,9 @@ def register_login():
     if username in reg_roll_no:
         # print("Password: ")
         while not bcrypt.checkpw(password.encode('utf-8'), reg_users[reg_roll_no.index(username)][2]):
-        	if not password == "":
-        		print("wrong Password")
-        	password = gp.getpass("Password:")
+            if not password == "":
+                print("wrong Password")
+            password = gp.getpass("Password:")
         # print(hashed_pw)
 
         if bcrypt.checkpw(password.encode('utf-8'), reg_users[reg_roll_no.index(username)][2]):
@@ -137,9 +140,9 @@ def print_user_data(user_data, skipped):
     os.system('cls')
     print(f"Roll: {user_data[1]}\nName: {user_data[0]}")
     if skipped:
-    	print(f"Unattempted Questions: ", skipped_questions)
+        print(f"Unattempted Questions: ", skipped_questions)
     else:
-    	print(f"Unattempted Questions: ")
+        print(f"Unattempted Questions: ")
     print("Goto Question: Press Ctrl+Alt+G")
     print("Final Submit: Press Ctrl+Alt+F")
     print("Export Database into CSV: Press Ctrl+Alt+E")
@@ -161,9 +164,9 @@ def save_marks_in_database(roll_no, quiz_no, marks):
         pass
 
     if not type(marks) == int:
-    	mark = marks.item()
+        mark = marks.item()
     else:
-    	mark = marks
+        mark = marks
     data = (roll_no, quiz_no)
     c.execute("DELETE FROM project1_marks WHERE roll=? AND quiz_no=?", data)
     c.execute("INSERT INTO project1_marks VALUES (?,?,?)",
@@ -188,6 +191,7 @@ def print_marks_from_database(roll_no):
 
 def detect_hotkeys():
     tmp = ''
+    global end_timer
     while detect_keypress:
         try:
             if keyboard.is_pressed('ctrl+alt+u') or keyboard.is_pressed('ctrl+alt+U'):
@@ -196,7 +200,7 @@ def detect_hotkeys():
             elif keyboard.is_pressed('ctrl+alt+g') or keyboard.is_pressed('ctrl+alt+G'):
                 tmp = 'goto_question'
                 return tmp
-            elif keyboard.is_pressed('ctrl+alt+f') or keyboard.is_pressed('ctrl+alt+F'):
+            elif keyboard.is_pressed('ctrl+alt+f') or keyboard.is_pressed('ctrl+alt+F') or end_timer:
                 end_quiz = True
                 end_timer = True
                 tmp = 'final_submit'
@@ -205,44 +209,47 @@ def detect_hotkeys():
                 tmp = 'export_to_csv'
                 return tmp
             elif keyboard.is_pressed('1'):
-            	tmp = '1'
-            	print("1")
-            	return tmp
+                tmp = '1'
+                print("1")
+                return tmp
             elif keyboard.is_pressed('2'):
-            	tmp = '2'
-            	print("2")
-            	return tmp
+                tmp = '2'
+                print("2")
+                return tmp
             elif keyboard.is_pressed('3'):
-            	tmp = '3'
-            	print("3")
-            	return tmp
+                tmp = '3'
+                print("3")
+                return tmp
             elif keyboard.is_pressed('4'):
-            	tmp = '4'
-            	print("4")
-            	return tmp
+                tmp = '4'
+                print("4")
+                return tmp
             elif keyboard.is_pressed('s') or keyboard.is_pressed('S'):
-            	tmp = 's'
-            	print("s")
-            	return tmp
+                tmp = 's'
+                print("s")
+                return tmp
             elif keyboard.is_pressed('ctrl+q') or keyboard.is_pressed('ctrl+Q'):
-            	tmp = 'q'
-            	return tmp
+                tmp = 'q'
+                return tmp
         except:
             print("an error occured")
             break
 
+
 def export_to_csv():
-	for i in range(1,4):
-		fileName = os.path.join(path, "quiz_wise_responses", f"quiz{i}.csv")
-		conn = sqlite3.connect('project1 quiz cs384.db')
-		c = conn.cursor()
-		data_to_write = []
-		for row in c.execute("SELECT * FROM project1_marks WHERE quiz_no=?", (i,)):
-			data_to_write.append(list(row))
-		# print(data_to_write)
-		if len(data_to_write) > 0:
-			df_export = pd.DataFrame(data_to_write, columns = ["Roll No.", "Quiz No.", "Marks"])
-			df_export.to_csv(fileName, index=False)
+    for i in range(1, 4):
+        fileName = os.path.join(path, "quiz_wise_responses", f"quiz{i}.csv")
+        conn = sqlite3.connect('project1 quiz cs384.db')
+        c = conn.cursor()
+        data_to_write = []
+        for row in c.execute("SELECT * FROM project1_marks WHERE quiz_no=?", (i,)):
+            data_to_write.append(list(row))
+        # print(data_to_write)
+        if len(data_to_write) > 0:
+            df_export = pd.DataFrame(data_to_write, columns=[
+                                     "Roll No.", "Quiz No.", "Marks"])
+            df_export.to_csv(fileName, index=False)
+
 
 def start_quiz(quiz, user):
     questions_folder = os.path.join(path, "quiz_wise_questions")
@@ -260,10 +267,11 @@ def start_quiz(quiz, user):
     count, tmp = 0, ''
     global skipped_questions
     marks_quiz, skipped_questions = [], []
-    responses_for_csv = [['','','','','','','','','','','']]*df_quiz.shape[0]
+    responses_for_csv = [['', '', '', '', '',
+                          '', '', '', '', '', '']]*df_quiz.shape[0]
     # print(responses_for_csv, len(responses_for_csv), len(responses_for_csv[0]))
     # exit()
-    no_of_skipped_questions, correct, wrong= 0, 0, 0
+    no_of_skipped_questions, correct, wrong = 0, 0, 0
     show_skipped = False
     # print(df_quiz.loc[0])
     # exit()
@@ -272,6 +280,7 @@ def start_quiz(quiz, user):
         # print(responses_for_csv[i], len(responses_for_csv[i]))
 
     # exit()
+    global end_timer
 
     while count < df_quiz.shape[0]:
         # os.system('clear')
@@ -315,19 +324,20 @@ def start_quiz(quiz, user):
             no_of_skipped_questions += 1
             marks_gained = 0
         elif tmp == 'export_to_csv':
-        	count -= 1
-        	export_to_csv()
-        	marks_gained = 0
+            count -= 1
+            export_to_csv()
+            marks_gained = 0
         elif tmp == 'skip_question':
-        	count -= 1
-        	show_skipped = True
+            count -= 1
+            show_skipped = True
         elif tmp == 'goto_question':
-            count = int(input("Goto the question no. :"))
+            count = int(input("Goto the question no. (Please clear the buffered input): "))
             count -= 1
             continue
-        elif tmp == 'final_submit':
-        	count -= 1
-        	break
+        elif tmp == 'final_submit' or end_timer:
+            # end_timer = True
+            count -= 1
+            break
         else:
             marks_gained = df_quiz.marks_wrong_ans[count-1]
             wrong += 1
@@ -335,9 +345,9 @@ def start_quiz(quiz, user):
         # print(f"Marks gained : {marks_gained}")
         marks_quiz.append(marks_gained)
         # print("count: ", count)
-        if (not count<1) and tmp in ['1','2','3','4','s']:
-	        # responses_for_csv[count-1] = list(df_quiz.loc[count-1][0:-1])
-	        responses_for_csv[count-1][-1] = tmp
+        if (not count < 1) and tmp in ['1', '2', '3', '4', 's']:
+            # responses_for_csv[count-1] = list(df_quiz.loc[count-1][0:-1])
+            responses_for_csv[count-1][-1] = tmp
 
     # ----------------------------------Responses csv files-------------------------------------
     header_responses = df_quiz.columns.values
@@ -357,6 +367,7 @@ def start_quiz(quiz, user):
 
     # print(header_responses)
     new_df = pd.DataFrame(additional_col)
+    end_timer = True
     # print(responses_for_csv)
     responses_df = pd.DataFrame(responses_for_csv, columns=header_responses)
     header_responses += ["Total", "Legend"]
@@ -369,8 +380,8 @@ def start_quiz(quiz, user):
 
     print_user_data(user, show_skipped)
     # print()
-    print(f"Total Quiz Questions: {count}")
-    print(f"Total Quiz Questions Attempted: {count - no_of_skipped_questions}")
+    print(f"Total Quiz Questions: {df_quiz.shape[0]}")
+    print(f"Total Quiz Questions Attempted: {df_quiz.shape[0] - no_of_skipped_questions}")
     print(f"Total Correct Questions: {correct}")
     print(f"Total Wrong Questions: {wrong}")
     print(f"Total Marks: {total_marks_obtained}/{total_marks}\n")
@@ -392,12 +403,15 @@ if not user == []:
     t2.start()
 
     t1.join()
+    # print(end_timer)
     end_timer = True
+    time.sleep(1)
     print("Press 'Ctrl+Q' to quit or 'Ctrl+Alt+E' to export data to csv")
+    end_timer = False
     key = detect_hotkeys()
     if key == 'export_to_csv':
-    	# print_marks_from_database(3)
-    	export_to_csv()
-    	detect_keypress = False
+        # print_marks_from_database(3)
+        export_to_csv()
+        detect_keypress = False
     else:
-    	detect_keypress = False
+        detect_keypress = False
