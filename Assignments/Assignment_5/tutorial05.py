@@ -72,19 +72,19 @@ def rename_How_I_Met_Your_Mother(folder_name):
     	os.rename(file, newName)
     	# print(newName) 
 
-seriesName = input("Main Title of the Web Series: ")
+print("List of web series:\n1.Sherlock\n2.Game of Thrones\n3.How I Met Your Mother\n4.Suits\n5.FIR")
+seriesName = int(input("Enter the number of the Web Series: "))
 seasonPadding = int(input('Season Number Padding: '))
 episodePadding = int(input("Episode Number Padding: "))
-seriesName = seriesName.lower()
 
 
-if seriesName == "sherlock":
-	rename_Sherlock(seriesName)
-elif seriesName == "game of thrones":
-	rename_Game_of_Thrones(seriesName)
-elif seriesName == "how i met your mother":
-	rename_How_I_Met_Your_Mother(seriesName)
-elif seriesName == "suits":
-	rename_Suits(seriesName)
-elif seriesName == "fir":
-	rename_FIR(seriesName)
+if seriesName == 1:
+	rename_Sherlock('Sherlock')
+elif seriesName == 2:
+	rename_Game_of_Thrones('Game of Thrones')
+elif seriesName == 3:
+	rename_How_I_Met_Your_Mother('How I Met Your Mother')
+elif seriesName == 4:
+	rename_Suits('Suits')
+elif seriesName == 5:
+	rename_FIR('FIR')
